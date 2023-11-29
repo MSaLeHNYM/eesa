@@ -4,6 +4,7 @@
 #include <vector>
 #include <limits>
 #include <string>
+#include <cctype>
 #include "FileOperations.h"
 #include "User.h"
 
@@ -34,6 +35,22 @@ void addUser(vector<User> &notebook)
     {
         cout << "Enter number: ";
         cin >> number;
+
+        bool isValidNumber = true;
+        for (char digit : number)
+        {
+            if (!isdigit(digit))
+            {
+                isValidNumber = false;
+                break;
+            }
+        }
+
+        if (!isValidNumber)
+        {
+            cout << "Invalid input for the number. Please enter a valid number.\n";
+            continue;
+        }
 
         int category;
         while (true)
@@ -157,7 +174,7 @@ void deleteUser(vector<User> &notebook)
 
         if (cin.fail())
         {
-            cin.clear(); 
+            cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << "Invalid input. Please enter a valid index (integer).\n";
         }
