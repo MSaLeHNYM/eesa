@@ -18,6 +18,8 @@ void showAll(const vector<User> &notebook);
 void sortAll(vector<User> &notebook);
 string phoneTypeToString(PhoneType type);
 
+// ...
+
 void addUser(vector<User> &notebook)
 {
     User user;
@@ -36,19 +38,24 @@ void addUser(vector<User> &notebook)
         cout << "Enter number: ";
         cin >> number;
 
-        bool isValidNumber = true;
-        for (char digit : number)
+        bool isUnique = true;
+        for (const User &u : notebook)
         {
-            if (!isdigit(digit))
+            for (const auto &entry : u.numbers)
             {
-                isValidNumber = false;
-                break;
+                if (entry.first == number)
+                {
+                    isUnique = false;
+                    break;
+                }
             }
+            if (!isUnique)
+                break;
         }
 
-        if (!isValidNumber)
+        if (!isUnique)
         {
-            cout << "Invalid input for the number. Please enter a valid number.\n";
+            cout << "This number already exists. Please enter a unique number.\n";
             continue;
         }
 
