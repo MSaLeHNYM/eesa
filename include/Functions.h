@@ -18,7 +18,6 @@ void showAll(const vector<User> &notebook);
 void sortAll(vector<User> &notebook);
 string phoneTypeToString(PhoneType type);
 
-// ...
 
 void addUser(vector<User> &notebook)
 {
