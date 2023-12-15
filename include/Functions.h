@@ -32,7 +32,6 @@ void addUser(vector<User> &notebook)
     cout << "Enter last name: ";
     cin >> user.lastName;
 
-    // Loop until a valid email is entered
     do
     {
         cout << "Enter email: ";
