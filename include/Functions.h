@@ -7,9 +7,13 @@
 #include <cctype>
 #include "FileOperations.h"
 #include "User.h"
+#include <regex>
 
 using namespace std;
 
+
+bool isValidPhoneNumber(const string &number);
+bool isValidEmail(const string &email);
 void addUser(vector<User> &notebook);
 void searchUser(const vector<User> &notebook);
 void deleteUser(vector<User> &notebook);
@@ -19,6 +23,7 @@ void sortAll(vector<User> &notebook);
 string phoneTypeToString(PhoneType type);
 
 
+
 void addUser(vector<User> &notebook)
 {
     User user;
@@ -26,16 +31,36 @@ void addUser(vector<User> &notebook)
     cin >> user.firstName;
     cout << "Enter last name: ";
     cin >> user.lastName;
-    cout << "Enter email: ";
-    cin >> user.email;
+
+    // Loop until a valid email is entered
+    do
+    {
+        cout << "Enter email: ";
+        cin >> user.email;
+
+        if (!isValidEmail(user.email))
+        {
+            cout << "Invalid email format. Please enter a valid email address.\n";
+        }
+
+    } while (!isValidEmail(user.email));
 
     string number;
     PhoneType type;
 
     do
     {
-        cout << "Enter number: ";
-        cin >> number;
+        do
+        {
+            cout << "Enter number: ";
+            cin >> number;
+
+            if (!isValidPhoneNumber(number))
+            {
+                cout << "Invalid phone number. Please enter a valid numeric phone number.\n";
+            }
+
+        } while (!isValidPhoneNumber(number));
 
         bool isUnique = true;
         for (const User &u : notebook)
@@ -265,5 +290,18 @@ string phoneTypeToString(PhoneType type)
         return "Unknown";
     }
 }
+
+
+bool isValidEmail(const string &email)
+{
+    const regex pattern(R"([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})");
+    return regex_match(email, pattern);
+}
+
+bool isValidPhoneNumber(const string &number)
+{
+    return !number.empty() && all_of(number.begin(), number.end(), ::isdigit);
+}
+
 
 #endif
